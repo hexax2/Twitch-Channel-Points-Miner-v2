@@ -7,6 +7,7 @@ import getpass
 import logging
 import os
 import pickle
+from time import sleep
 
 import browser_cookie3
 import requests
@@ -99,7 +100,7 @@ class TwitchLogin(object):
                             logger.info(
                                 "Invalid Login Verification code entered, please try again."
                             )
-
+                        
                         twofa = input(
                             f"Please enter the 6-digit code sent to {self.email}: "
                         )
@@ -125,10 +126,12 @@ class TwitchLogin(object):
                         use_backup_flow = True
                         break
                     else:
-                        logger.error(f"Unknown error: {login_response}")
-                        raise NotImplementedError(
-                            f"Unknown TwitchAPI error code: {err_code}"
-                        )
+                        #logger.error(f"Unknown error: {login_response}")
+                        #raise NotImplementedError(
+                        #    f"Unknown TwitchAPI error code: {err_code}"
+                        #)
+                        use_backup_flow = True
+                        break
 
                 if "access_token" in login_response:
                     self.set_token(login_response["access_token"])
